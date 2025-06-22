@@ -1,5 +1,4 @@
 package org.example.controller;
-
 import org.example.service.CourseService;
 import org.example.model.Course;
 import org.example.model.CourseRegistry;
@@ -14,7 +13,7 @@ public class CourseController {
     @Autowired
     CourseService service;
 
-    @GetMapping("/courses")
+    @GetMapping("/public/courses")
     public List<Course> availableCourses(){
         return service.availableCourses();
     }
@@ -28,7 +27,7 @@ public class CourseController {
         return service.getById(id);
     }
 
-    @PostMapping("/courses/register")
+    @PostMapping("/user/courses/register")
     public String enrollCourse(@RequestParam("name") String name,
                                @RequestParam("emailId") String emailId,
                                @RequestParam("courseName") String courseName){
@@ -36,7 +35,7 @@ public class CourseController {
         return "Congratulations! "+name+" Enrollment Successful for "+courseName;
 
     }
-    @PostMapping("courses/trainer")
+    @PostMapping("/admin/courses/trainer")
     public String addTrainer(@RequestParam("courseId") String id,@RequestParam("courseName") String name,@RequestParam("trainer") String trainer,@RequestParam("durationInWeeks") int weeks){
         return service.addTrainer(id,name,trainer,weeks);
     }
@@ -59,6 +58,8 @@ public class CourseController {
     public String deleteallcourse(){
         return service.deleteallcourse();
     }
+
+
     @PutMapping("/admin/put/student")
     public String updateStudent(@RequestBody CourseRegistry reg){
         return service.updateStudent(reg);

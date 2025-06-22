@@ -8,7 +8,6 @@ public class CourseRegistry {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id; //No need to provide value
-
     private String name;
     private String emailId;
     private String courseName;

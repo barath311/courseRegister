@@ -1,28 +1,34 @@
 package org.example.model;
 import jakarta.persistence.*;
-import jdk.jfr.DataAmount;
 
 @Entity
+@Table(name = "users") // optional: better to name table explicitly
 public class AppUser {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String username;
 
+    @Column(nullable = false)
     private String password;
 
-    private String role; // Example: ROLE_ADMIN or ROLE_USER
+    @Column(nullable = false)
+    private String role; // Example: ROLE_USER, ROLE_ADMIN
 
     public AppUser() {
     }
 
-    public AppUser(String username, Long id, String password, String role) {
-        this.username = username;
+    public AppUser(Long id, String username, String password, String role) {
         this.id = id;
+        this.username = username;
         this.password = password;
         this.role = role;
     }
+
+    // Getters & Setters
 
     public Long getId() {
         return id;
@@ -55,5 +61,4 @@ public class AppUser {
     public void setRole(String role) {
         this.role = role;
     }
-// Getters & Setters
 }

@@ -3,12 +3,12 @@ package org.example.controller;
 import org.example.model.AppUser;
 import org.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/public")
 public class AuthController {
 
     @Autowired
@@ -18,11 +18,21 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
-    public String register(@RequestBody AppUser user) {
+    public ResponseEntity<String> register(@RequestBody AppUser user) {
+        // Check if the username already exists
+        if (userRepo.existsByUsername(user.getUsername())) {
+            return ResponseEntity.badRequest().body("Username already exists!");
+        }
+
+        // Encode the password
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole("ROLE_USER"); // or ROLE_ADMIN
+
+        // Assign default role
+        user.setRole("ROLE_USER");
+
+        // Save user to database
         userRepo.save(user);
-        return "User registered successfully!";
+
+        return ResponseEntity.ok("User registered successfully!");
     }
 }
-

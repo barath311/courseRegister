@@ -3,6 +3,9 @@ package org.example.repository;
 import org.example.model.AppUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 public interface UserRepository extends JpaRepository<AppUser, Long> {
-    AppUser findByUsername(String username);
+    Optional<AppUser> findByUsername(String username); // safer for null
+    boolean existsByUsername(String username);
 }
